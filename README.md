@@ -8,7 +8,7 @@
 - Download Python 3.11.x (or any other stable versions)
 - Download the required python modules either manually or by the given `requirments.txt` file.
 ```txt
-pip install -r requirments.txt
+pip install -r requirements.txt
 ```
 - Run the python file `koalahook.py`
 
