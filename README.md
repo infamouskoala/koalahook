@@ -18,6 +18,5 @@ pip install -r requirements.txt
 
 # PREVIEW
 <div align="center">
-    <img src="https://github.com/infamouskoala/koalahook/blob/main/src/preview/image.png">
     <img src="https://github.com/infamouskoala/koalahook/blob/main/src/preview/beforelogin.png">
     <img src="https://github.com/infamouskoala/koalahook/blob/main/src/preview/postlogin.png">
