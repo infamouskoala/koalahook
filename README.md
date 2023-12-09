@@ -1,6 +1,6 @@
 # KOALAHOOK
 - KoalaHook is a multitool made to work around with webhooks without any flaws. The script is completely open source and free to use.
-- Tutorial's on my [youtube channel](https://youtube.com/infamouskoala) aswell
+- Tutorial's on my [youtube channel](https://youtube.com/infamouskoala) aswell, or click [here](https://www.youtube.com/watch?v=6NJjPMd2siw&t=10s) to watch the video
 - Star the repo! Tysm!
 
 # INSTALLATION
