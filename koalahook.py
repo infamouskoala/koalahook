@@ -64,7 +64,7 @@ def clear():
 def pause(text: str = None):
     if text: print(text)
     if os.name == 'posix': # Unix/Linux/MacOS
-        os.system('read -n 1 -s -r -p "Press any key to reload..."')
+        os.system('read -n 1 -s -r -p ""')
     elif os.name == 'nt': # Windows
         os.system('pause >nul')
     else:
