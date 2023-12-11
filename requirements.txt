@@ -1,4 +1,2 @@
 requests
 pystyle
-os
-time
