@@ -24,10 +24,10 @@ socials = {
 } # You can update this list and it will dynamically update.
 
 logo = """
-    __   __)             ____  ___)        
-    (, ) /         /)    (, /   /        /) 
+      __   __)             ____  ___)        
+     (, ) /         /)    (, /   /        /) 
         /(   ____   // _     /---/  ______(/_ 
-    ) /  \_(_)(_(_(/_(_(_) /   (__(_)(_) /(__
+     ) /  \_(_)(_(_(/_(_(_) /   (__(_)(_) /(__
     (_/                  (_/                  
     >> [Webhook Multitool developed by @infamouskoala]
 """
