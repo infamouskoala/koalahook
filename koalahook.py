@@ -4,24 +4,24 @@ import time
 import os
 import webbrowser
 
-#colors because i cannot remember to change it everytime
+# colors because i cannot remember to change it everytime
 
 black = "\033[1;30m"
 titletext = "[-- KOALAHOOK --] Made by github.com/infamouskoala"
-red = "\033[1;31m"    
+red = "\033[1;31m"
 green = "\033[1;32m"
 yellow = "\033[1;33m"
-blue = "\033[1;34m"    
-purple = "\033[1;35m"    
-cyan = "\033[1;36m"    
-white = "\033[1;37m"    
+blue = "\033[1;34m"
+purple = "\033[1;35m"
+cyan = "\033[1;36m"
+white = "\033[1;37m"
 invalidurl = f"{red}[! KOALAHOOK !]{white} Invalid url!"
-# test = "" testhook, dont forget to remove :3
+# test = "" test webhook, dont forget to remove :3
 
 socials = {
     "github": {"link": "https://github.com/infamouskoala"},
-    "youtube": {"link": "https://youtube.com/infamouskoala"}
-} # You can update this list and it will dynamically update.
+    "youtube": {"link": "https://youtube.com/infamouskoala"},
+}  # You can update this list, and it will dynamically update.
 
 logo = """
       __   __)             ____  ___)        
@@ -38,6 +38,7 @@ for platform, info in socials.items():
 
 logo = Center.XCenter(logo)
 
+
 def choice():
     print(Center.XCenter("""
 [1] Send Message
@@ -49,33 +50,41 @@ def choice():
 [0] Source Code
 """))
 
+
 def printascii():
     print(Colorate.Horizontal(Colors.cyan_to_blue, logo, 1))
 
+
 def clear():
-    if os.name == 'posix': # Unix/Linux/MacOS
-        os.system('clear')
-    elif os.name == 'nt': # Windows
-        os.system('cls')
-    else:
-        print("Unsupported operating system")
-        raise SystemExit
+    os.system('clear' if os.name != 'nt' else 'cls')  # should be a better one-liner, because let's be real if its unsupported they are on some next wacky shit
+    # if os.name == 'posix':  # Unix/Linux/MacOS
+    #     os.system('clear')
+    # elif os.name == 'nt':  # Windows
+    #     os.system('cls')
+    # else:
+    #     print("Unsupported operating system")
+    #     raise SystemExit
+
 
 def pause(text: str = None):
-    if text: print(text)
-    if os.name == 'posix': # Unix/Linux/MacOS
-        os.system('read -n 1 -s -r -p ""')
-    elif os.name == 'nt': # Windows
-        os.system('pause >nul')
-    else:
-        print("Unsupported operating system")
-        raise SystemExit
-        
+    if text:
+        print(text)
+    os.system('read -n 1 -s -r -p ""' if os.name != 'nt' else 'pause >nul')  # should be a better one-liner, because let's be real if its unsupported they are on some next wacky shit
+    # if os.name == 'posix':  # Unix/Linux/MacOS
+    #     os.system('read -n 1 -s -r -p ""')
+    # elif os.name == 'nt':  # Windows
+    #     os.system('pause >nul')
+    # else:
+    #     print("Unsupported operating system")
+    #     raise SystemExit
+
+
 def intromenu():
     clear()
     printascii()
     choice()
     os.system(f"title {titletext}")
+
 
 # Options start here
 
@@ -105,6 +114,7 @@ def deletehook(url):
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
 
+
 def sendmessage(url):
     msg = input(f"{yellow}[? KOALAHOOK ?]{white} Message: ")
     try:
@@ -119,6 +129,7 @@ def sendmessage(url):
         print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
+
 
 def renamehook(url):
     name = input(f"{yellow}[? KOALAHOOK ?]{white} Webhook Name: ")
@@ -135,6 +146,7 @@ def renamehook(url):
         print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
+
 
 def spamhook(url):
     print(f"{cyan}[+ KOALAHOOK +]{white} Trying to spam webhook...")
@@ -156,6 +168,7 @@ def spamhook(url):
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
 
+
 # injecting antiskid into your pc, no skidding kid :)
 with open(f"{os.getcwd()}\\src\\skidded.txt", "w+") as file:
     content = "Greetings user, this file has been originally developed by Infamous Koala. You can find him here:\n"
@@ -172,7 +185,6 @@ Infamous Koala
 """
 
     file.write(content)
-
 
 webhook = {}
 
@@ -192,7 +204,7 @@ while True:
             if isinstance(e, KeyboardInterrupt):
                 raise SystemExit
             print("Invalid Webhook")
-            
+
     while True:
         intromenu()
         webhook_name = webhook["name"]
@@ -217,14 +229,17 @@ while True:
         elif ch == 5:
             if webhook["application_id"]:
                 print("Application ID: {}".format(webhook["application_id"]))
-            
-            print("Server Information\n    Guild ID: {}\n    Channel ID: {}".format(webhook["guild_id"], webhook["channel_id"]))
-            print("Webhook Information\n    Webhook ID: {}\n    Name: {}\n    Type: {}\n    Token: {}".format(webhook["id"], webhook["name"], webhook["type"], webhook["token"]))
+
+            print("Server Information\n    Guild ID: {}\n    Channel ID: {}".format(webhook["guild_id"],
+                                                                                    webhook["channel_id"]))
+            print("Webhook Information\n    Webhook ID: {}\n    Name: {}\n    Type: {}\n    Token: {}".format(
+                webhook["id"], webhook["name"], webhook["type"], webhook["token"]))
             user = webhook["user"]
-            print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(user["username"] + "#" + user["discriminator"], user["id"]))
+            print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(
+                user["username"] + "#" + user["discriminator"], user["id"]))
 
             pause("\nPress any key to return to menu...")
-                
+
         elif ch == 6:
             os.system("title Logging out...")
             print("Logging out, please wait..")
@@ -238,7 +253,7 @@ while True:
 
             while True:
                 name = input("Enter the name of the platform you want to open (or 'exit' to quit): ").lower()
-                
+
                 if name == 'exit':
                     break
 
@@ -253,5 +268,5 @@ while True:
                         print("Invalid input. Please enter 'y' or 'n'.")
                 else:
                     print("Platform not found. Please enter a valid platform.")
-                    
+
             # pause("Press any key to reload...")
