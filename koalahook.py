@@ -1,13 +1,15 @@
+import threading
+
 import requests
 from pystyle import Colors, Colorate, Center
 import time
 import os
 import webbrowser
 
-# colors because i cannot remember to change it everytime
+# colors because I cannot remember to change it everytime
 
 black = "\033[1;30m"
-titletext = "[-- KOALAHOOK --] Made by github.com/infamouskoala"
+titletext = " [-- KOALAHOOK --] Made by github.com/infamouskoala"
 red = "\033[1;31m"
 green = "\033[1;32m"
 yellow = "\033[1;33m"
@@ -17,6 +19,8 @@ cyan = "\033[1;36m"
 white = "\033[1;37m"
 invalidurl = f"{red}[! KOALAHOOK !]{white} Invalid url!"
 # test = "" test webhook, dont forget to remove :3
+
+title_lock = threading.Lock()
 
 socials = {
     "github": {"link": "https://github.com/infamouskoala"},
@@ -56,7 +60,8 @@ def printascii():
 
 
 def clear():
-    os.system('clear' if os.name != 'nt' else 'cls')  # should be a better one-liner, because let's be real if its unsupported they are on some next wacky shit
+    os.system(
+        'clear' if os.name != 'nt' else 'cls')  # should be a better one-liner, because let's be real if its unsupported they are on some next wacky shit
     # if os.name == 'posix':  # Unix/Linux/MacOS
     #     os.system('clear')
     # elif os.name == 'nt':  # Windows
@@ -69,8 +74,9 @@ def clear():
 def pause(text: str = None):
     if text:
         print(text)
-    os.system('read -n 1 -s -r -p ""' if os.name != 'nt' else 'pause >nul')  # should be a better one-liner, because let's be real if its unsupported they are on some next wacky shit
-    # if os.name == 'posix':  # Unix/Linux/MacOS
+    os.system(
+        'read -n 1 -s -r -p ""' if os.name != 'nt' else 'pause >nul')  # should be a better one-liner, because let's be real if its unsupported they are on some next wacky shit
+    # if os.name == 'posix':  # Unix/Linux/macOS
     #     os.system('read -n 1 -s -r -p ""')
     # elif os.name == 'nt':  # Windows
     #     os.system('pause >nul')
@@ -83,8 +89,8 @@ def intromenu():
     clear()
     printascii()
     choice()
-    os.system(f"title {titletext}")
-
+    scrolling_thread = threading.Thread(target=scrolling)
+    scrolling_thread.start()
 
 # Options start here
 
@@ -105,14 +111,26 @@ def deletehook(url):
         response = requests.delete(url)
         response.raise_for_status()  # Raises HTTPError for bad responses
         print(f"{green}[+ KOALAHOOK +]{white} Webhook deleted successfully.")
+        with open("url.txt", "w") as file5:
+            file5.write('')
+            time.sleep(0.2)
+            main()
     except requests.exceptions.HTTPError as errh:
         print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.ConnectionError as errc:
         print(f"{red}[! KOALAHOOK !] Error Connecting: {errc}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.Timeout as errt:
         print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
+        time.sleep(0.2)
+        main()
 
 
 def sendmessage(url):
@@ -121,14 +139,24 @@ def sendmessage(url):
         response = requests.post(url, json={"content": msg})
         response.raise_for_status()
         print(f"{green}[+ KOALAHOOK +]{white} Message sent successfully.")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.HTTPError as errh:
         print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.ConnectionError as errc:
         print(f"{red}[! KOALAHOOK !] Error Connecting: {errc}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.Timeout as errt:
         print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
+        time.sleep(0.2)
+        main()
 
 
 def renamehook(url):
@@ -138,14 +166,24 @@ def renamehook(url):
         response = requests.patch(url, json={"name": name})
         response.raise_for_status()
         print(f"{green}[+ KOALAHOOK +]{white} Webhook name changed successfully.")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.HTTPError as errh:
         print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.ConnectionError as errc:
         print(f"{red}[! KOALAHOOK !] Error Connecting: {errc}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.Timeout as errt:
         print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
+        time.sleep(0.2)
+        main()
 
 
 def spamhook(url):
@@ -161,12 +199,20 @@ def spamhook(url):
             time.sleep(timeout)
     except requests.exceptions.HTTPError as errh:
         print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.ConnectionError as errc:
         print(f"{red}[! KOALAHOOK !] Error Connecting: {errc}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.Timeout as errt:
         print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
+        time.sleep(0.2)
+        main()
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
+        time.sleep(0.2)
+        main()
 
 
 # injecting antiskid into your pc, no skidding kid :)
@@ -188,85 +234,120 @@ Infamous Koala
 
 webhook = {}
 
-while True:
-    clear()
-    printascii()
+def scrolling():
+    global titletext
     while True:
-        try:
-            url = input(f"{cyan}[>]{white} url: ")
-            response = requests.get(url)
-            if response.status_code == 200:
-                webhook = response.json()
-                break
-            else:
-                print(f"[{response.status_code}]: Invalid Webhook")
-        except Exception as e:
-            if isinstance(e, KeyboardInterrupt):
-                raise SystemExit
-            print("Invalid Webhook")
+        with title_lock:
+            os.system(f"title {titletext}")
+            time.sleep(0.1)
+            titletext = titletext[1:] + titletext[0]
 
+def main():
     while True:
-        intromenu()
-        webhook_name = webhook["name"]
-        print(f"\n\n\n{green}[+ KOALAHOOK +]{white} Logged into webhook: {webhook_name}")
-        ch = int(input(f"{cyan}[>]{white} --> "))
-        if ch == 1:
-            clear()
-            sendmessage(url)
-            pause("Press any key to return to menu...")
-        elif ch == 2:
-            clear()
-            deletehook(url)
-            pause("Press any key to return to menu...")
-        elif ch == 3:
-            clear()
-            renamehook(url)
-            pause("Press any key to return to menu...")
-        elif ch == 4:
-            clear()
-            spamhook(url)
-            pause("Press any key to return to menu...")
-        elif ch == 5:
-            if webhook["application_id"]:
-                print("Application ID: {}".format(webhook["application_id"]))
-
-            print("Server Information\n    Guild ID: {}\n    Channel ID: {}".format(webhook["guild_id"],
-                                                                                    webhook["channel_id"]))
-            print("Webhook Information\n    Webhook ID: {}\n    Name: {}\n    Type: {}\n    Token: {}".format(
-                webhook["id"], webhook["name"], webhook["type"], webhook["token"]))
-            user = webhook["user"]
-            print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(
-                user["username"] + "#" + user["discriminator"], user["id"]))
-
-            pause("\nPress any key to return to menu...")
-
-        elif ch == 6:
-            os.system("title Logging out...")
-            print("Logging out, please wait..")
-            break
-
-        elif ch == 0:
-            print(f"{cyan}[+ KOALAHOOK +]{white} Source code can be found here:")
-            for platform, info in socials.items():
-                link = info["link"].replace("https://", "")
-                print(f"{platform.capitalize()}: {link}")
-
-            while True:
-                name = input("Enter the name of the platform you want to open (or 'exit' to quit): ").lower()
-
-                if name == 'exit':
-                    break
-
-                if name in socials:
-                    link = socials[name]["link"]
-                    x = input(f"Would you like to open {name.capitalize()} in your browser [y/n]? ").lower()
-                    if x == "y":
-                        webbrowser.open(link)
-                    elif x == "n":
-                        pass
+        clear()
+        printascii()
+        while True:
+            try:
+                with open("url.txt", "r") as file:
+                    url = file.readline().strip()
+                    if url == '':
+                        url = input(f"{cyan}[>]{white} url: ")
+                        with open("url.txt", "w") as file2:
+                            file2.write(url)
                     else:
-                        print("Invalid input. Please enter 'y' or 'n'.")
+                        pass
+                response = requests.get(url)
+                if response.status_code == 200:
+                    webhook = response.json()
+                    break
                 else:
-                    print("Platform not found. Please enter a valid platform.")
+                    print(f"{red}[! KOALAHOOK !] [{response.status_code}]: Invalid Webhook")
+                    with open("url.txt", "w") as file7:
+                        file7.write('')
+                        time.sleep(.3)
+                        main()
+            except Exception as e:
+                if isinstance(e, KeyboardInterrupt):
+                    raise SystemExit
+                print(f"{red}[! KOALAHOOK !] Invalid Webhook")
+                with open("url.txt", "w") as file3:
+                    file3.write('')
+                time.sleep(.2)
+                main()
 
-            # pause("Press any key to reload...")
+        while True:
+            intromenu()
+            webhook_name = webhook["name"]
+            print(f"\n\n\n{green}[+ KOALAHOOK +]{white} Logged into webhook: {webhook_name}")
+            ch = input(f"{cyan}[>]{white} --> ")
+            if ch == '1':
+                clear()
+                sendmessage(url)
+                pause("Press any key to return to menu...")
+            elif ch == '2':
+                clear()
+                deletehook(url)
+                pause("Press any key to return to menu...")
+            elif ch == '3':
+                clear()
+                renamehook(url)
+                pause("Press any key to return to menu...")
+            elif ch == '4':
+                clear()
+                spamhook(url)
+                pause("Press any key to return to menu...")
+            elif ch == '5':
+                if webhook["application_id"]:
+                    print("Application ID: {}".format(webhook["application_id"]))
+
+                print("Server Information\n    Guild ID: {}\n    Channel ID: {}".format(webhook["guild_id"],
+                                                                                        webhook["channel_id"]))
+                print("Webhook Information\n    Webhook ID: {}\n    Name: {}\n    Type: {}\n    Token: {}".format(
+                    webhook["id"], webhook["name"], webhook["type"], webhook["token"]))
+                user = webhook["user"]
+                print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(
+                    user["username"] + "#" + user["discriminator"], user["id"]))
+
+                pause("\nPress any key to return to menu...")
+
+            elif ch == '6':
+                os.system("title Logging out...")
+                with open("url.txt", "w") as file4:
+                    file4.write('')
+                print("Logging out, please wait..")
+                break
+
+            elif ch == '0':
+                print(f"{cyan}[+ KOALAHOOK +]{white} Source code can be found here:")
+                for platform, info in socials.items():
+                    link = info["link"].replace("https://", "")
+                    print(f"{platform.capitalize()}: {link}")
+
+                while True:
+                    name = input(f"{yellow}[? KOALAHOOK ?]{white} Enter the name of the platform you want to open (or 'exit' to quit): ").lower()
+
+                    if name == 'exit':
+                        break
+
+                    if name in socials:
+                        link = socials[name]["link"]
+                        x = input(f"{yellow}[? KOALAHOOK ?]{white} Would you like to open {name.capitalize()} in your browser [y/n]? ").lower()
+                        if x == "y":
+                            webbrowser.open(link)
+                        elif x == "n":
+                            pass
+                        else:
+                            print(f"{red}[! KOALAHOOK !] Invalid input. Please enter 'y' or 'n'.{white}")
+                    else:
+                        print(f"{red}[! KOALAHOOK !] Platform not found. Please enter a valid platform.{white}")
+            else:
+                print(f"{red}[! KOALAHOOK !] Invalid option{white}")
+                time.sleep(0.3)
+
+                # pause("Press any key to reload...")
+
+
+if __name__ == '__main__':
+    scrolling_thread = threading.Thread(target=scrolling)
+    scrolling_thread.start()
+    main()
