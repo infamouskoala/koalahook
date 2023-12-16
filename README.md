@@ -3,14 +3,15 @@
 - Tutorial's on my [youtube channel](https://youtube.com/infamouskoala) aswell, or click [here](https://www.youtube.com/watch?v=6NJjPMd2siw&t=10s) to watch the video
 - Star the repo! Tysm!
 
-# INSTALLATION
-- Download the project and extract
-- Download Python 3.11.x (or any other stable versions)
-- Download the required python modules either manually or by the given `requirments.txt` file.
-```txt
-pip install -r requirements.txt
-```
-- Run the python file `koalahook.py`
+# INSTALLATION SIMPLE
+-Extract the Koalahook folder into your desktop
+-To start the Koalahook use the app.exe
+# INSTALATION ADVANCED
+-Extract the Koalahook folder into folder of your choice
+-Right click on the app.exe
+-Click: Send to
+-Click: Desktop
+-Then to start Koalahook just open the shortcut on your desktop
 
 # MENTIONS
 - [webhook spammer by infamous koala](https://github.com/infamouskoala/webhook-spammer)
