@@ -50,6 +50,7 @@ def choice():
 [4] Spam Webhook
 [5] Webhook Information
 [6] Log Out
+[7] Change pfp
 [0] Source Code
 """))
 
@@ -104,6 +105,30 @@ def intromenu():
 #     requests.post(url,json={"embed":embed})
 # '''
 
+def changepfp(url):
+    image_path = input(f"{yellow}[? KOALAHOOK ?]{white} Path to the image file: ")
+
+    try:
+        with open(image_path, "rb") as image_file:
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+
+        data = {
+            "avatar": f"data:image/jpeg;base64,{encoded_image}"
+        }
+        response = requests.patch(url, json=data)
+        response.raise_for_status()
+        print(f"{green}[+ KOALAHOOK +]{white} Profile picture changed successfully.")
+    except FileNotFoundError:
+        print(f"{red}[! KOALAHOOK !] File not found. Please provide a valid file path.")
+    except requests.exceptions.HTTPError as errh:
+        print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
+    except requests.exceptions.ConnectionError as errc:
+        print(f"{red}[! KOALAHOOK !] Error Connecting: {errc}")
+    except requests.exceptions.Timeout as errt:
+        print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
+    except requests.exceptions.RequestException as err:
+        print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
+
 def deletehook(url):
     print(f"{cyan}[+ KOALAHOOK +]{white} Trying to delete webhook...")
     try:
@@ -121,8 +146,6 @@ def deletehook(url):
 
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
-
-
 
 def sendmessage(url):
     msg = input(f"{yellow}[? KOALAHOOK ?]{white} Message: ")
@@ -143,8 +166,6 @@ def sendmessage(url):
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
 
-
-
 def renamehook(url):
     name = input(f"{yellow}[? KOALAHOOK ?]{white} Webhook Name: ")
     print(f"{cyan}[+ KOALAHOOK +]{white} Trying to change username...")
@@ -164,8 +185,6 @@ def renamehook(url):
 
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
-
-
 
 def spamhook(url):
     print(f"{cyan}[+ KOALAHOOK +]{white} Trying to spam webhook...")
@@ -189,8 +208,6 @@ def spamhook(url):
 
     except requests.exceptions.RequestException as err:
         print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
-
-
 
 # injecting antiskid into your pc, no skidding kid :)
 with open(f"{os.getcwd()}\\src\\skidded.txt", "w+") as file:
@@ -221,91 +238,92 @@ def scrolling():
 
 def main():
     while True:
-        clear()
-        printascii()
-        while True:
-            try:
-                url = input(f"{cyan}[>]{white} url: ")
-                response = requests.get(url)
-                if response.status_code == 200:
-                    webhook = response.json()
-                    break
-                else:
-                    print(f"{red}[! KOALAHOOK !] [{response.status_code}]: Invalid Webhook")
-            except Exception as e:
-                if isinstance(e, KeyboardInterrupt):
-                    raise SystemExit
-                print(f"{red}[! KOALAHOOK !] Invalid Webhook")
-
-        while True:
-            intromenu()
-            webhook_name = webhook["name"]
-            print(f"\n\n\n{green}[+ KOALAHOOK +]{white} Logged into webhook: {webhook_name}")
-            ch = input(f"{cyan}[>]{white} --> ")
-            if ch == '1':
-                clear()
-                sendmessage(url)
-                pause("Press any key to return to menu...")
-            elif ch == '2':
-                clear()
-                deletehook(url)
-                pause("Press any key to return to menu...")
-            elif ch == '3':
-                clear()
-                renamehook(url)
-                pause("Press any key to return to menu...")
-            elif ch == '4':
-                clear()
-                spamhook(url)
-                pause("Press any key to return to menu...")
-            elif ch == '5':
-                if webhook["application_id"]:
-                    print("Application ID: {}".format(webhook["application_id"]))
-
-                print("Server Information\n    Guild ID: {}\n    Channel ID: {}".format(webhook["guild_id"],
-                                                                                        webhook["channel_id"]))
-                print("Webhook Information\n    Webhook ID: {}\n    Name: {}\n    Type: {}\n    Token: {}".format(
-                    webhook["id"], webhook["name"], webhook["type"], webhook["token"]))
-                user = webhook["user"]
-                print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(
-                    user["username"] + "#" + user["discriminator"], user["id"]))
-
-                pause("\nPress any key to return to menu...")
-
-            elif ch == '6':
-                os.system("title Logging out...")
-                print("Logging out, please wait..")
+    clear()
+    printascii()
+    while True:
+        try:
+            url = input(f"{cyan}[>]{white} url: ")
+            response = requests.get(url)
+            if response.status_code == 200:
+                webhook = response.json()
                 break
-
-            elif ch == '0':
-                print(f"{cyan}[+ KOALAHOOK +]{white} Source code can be found here:")
-                for platform, info in socials.items():
-                    link = info["link"].replace("https://", "")
-                    print(f"{platform.capitalize()}: {link}")
-
-                while True:
-                    name = input(f"{yellow}[? KOALAHOOK ?]{white} Enter the name of the platform you want to open (or 'exit' to quit): ").lower()
-
-                    if name == 'exit':
-                        break
-
-                    if name in socials:
-                        link = socials[name]["link"]
-                        x = input(f"{yellow}[? KOALAHOOK ?]{white} Would you like to open {name.capitalize()} in your browser [y/n]? ").lower()
-                        if x == "y":
-                            webbrowser.open(link)
-                        elif x == "n":
-                            pass
-                        else:
-                            print(f"{red}[! KOALAHOOK !] Invalid input. Please enter 'y' or 'n'.{white}")
-                    else:
-                        print(f"{red}[! KOALAHOOK !] Platform not found. Please enter a valid platform.{white}")
             else:
-                print(f"{red}[! KOALAHOOK !] Invalid option{white}")
-                time.sleep(0.3)
+                print(f"[{response.status_code}]: Invalid Webhook")
+        except Exception as e:
+            if isinstance(e, KeyboardInterrupt):
+                raise SystemExit
+            print("Invalid Webhook")
+            
+    while True:
+        intromenu()
+        webhook_name = webhook["name"]
+        print(f"\n\n\n{green}[+ KOALAHOOK +]{white} Logged into webhook: {webhook_name}")
+        ch = int(input(f"{cyan}[>]{white} --> "))
+        
+        if ch == 1:
+            clear()
+            sendmessage(url)
+            pause("Press any key to return to menu...")
+        
+        elif ch == 2:
+            clear()
+            deletehook(url)
+            pause("Press any key to return to menu...")
+        
+        elif ch == 3:
+            clear()
+            renamehook(url)
+            pause("Press any key to return to menu...")
+        
+        elif ch == 4:
+            clear()
+            spamhook(url)
+            pause("Press any key to return to menu...")
+        
+        elif ch == 5:
+            if webhook["application_id"]:
+                print("Application ID: {}".format(webhook["application_id"]))
+            
+            print("Server Information\n    Guild ID: {}\n    Channel ID: {}".format(webhook["guild_id"], webhook["channel_id"]))
+            print("Webhook Information\n    Webhook ID: {}\n    Name: {}\n    Type: {}\n    Token: {}".format(webhook["id"], webhook["name"], webhook["type"], webhook["token"]))
+            user = webhook["user"]
+            print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(user["username"] + "#" + user["discriminator"], user["id"]))
 
-                # pause("Press any key to reload...")
+            pause("\nPress any key to return to menu...")
+                
+        elif ch == 6:
+            os.system("title Logging out...")
+            print("Logging out, please wait..")
+            break
+        
+        elif ch == 7:
+            clear()
+            changepfp(url)
+            pause("Press any key to return to menu...")
 
+        elif ch == 0:
+            print(f"{cyan}[+ KOALAHOOK +]{white} Source code can be found here:")
+            for platform, info in socials.items():
+                link = info["link"].replace("https://", "")
+                print(f"{platform.capitalize()}: {link}")
+
+            while True:
+                name = input("Enter the name of the platform you want to open (or 'exit' to quit): ").lower()
+                
+                if name == 'exit':
+                    break
+
+                if name in socials:
+                    link = socials[name]["link"]
+                    x = input(f"Would you like to open {name.capitalize()} in your browser [y/n]? ").lower()
+                    if x == "y":
+                        webbrowser.open(link)
+                    elif x == "n":
+                        pass
+                    else:
+                        print("Invalid input. Please enter 'y' or 'n'.")
+                else:
+                    print("Platform not found. Please enter a valid platform.")
 
 if __name__ == '__main__':
     scrolling_thread = threading.Thread(target=scrolling)
