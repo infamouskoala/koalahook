@@ -15,7 +15,6 @@ pip install -r requirements.txt
 # MENTIONS
 - [webhook spammer by infamous koala](https://github.com/infamouskoala/webhook-spammer)
 - [Discord Webhook API Docs](https://discord.com/developers/docs/resources/webhook)
-- Pull by [NotJINXZ](https://github.com/NotJINXZ)
 
 # PREVIEW
 <div align="center">
