@@ -112,7 +112,7 @@ def changepfp(url):
     image_path = fd.askopenfilename(filetypes=[("Profile Pictures", "*.png;*.jpg;*.jpeg")])
     if image_path is None or image_path == "":
         clear()
-        image_path = input(f"{yellow}[? KOALAHOOK ?]{white} Path to the image file: ")
+        image_path = input(f"{yellow}[? KOALAHOOK ?]{white} Path/URL to image: ")
     
     try:
         if image_path.startswith(('http://', 'https://')):
@@ -130,7 +130,7 @@ def changepfp(url):
         response.raise_for_status()
         print(f"{green}[+ KOALAHOOK +]{white} Profile picture changed successfully.")
     except FileNotFoundError:
-        print(f"{red}[! KOALAHOOK !] File not found. Please provide a valid file path.")
+        print(f"{red}[! KOALAHOOK !] File not found. Please provide a valid file path or url.")
     except requests.exceptions.HTTPError as errh:
         print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
     except requests.exceptions.ConnectionError as errc:
