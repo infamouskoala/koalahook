@@ -5,6 +5,7 @@ import time
 import os
 import webbrowser
 import base64
+from tkinter import filedialog as fd
 
 # colors because I cannot remember to change it everytime
 
@@ -107,8 +108,12 @@ def intromenu():
 # '''
 
 def changepfp(url):
-    image_path = input(f"{yellow}[? KOALAHOOK ?]{white} Path to the image file: ")
-
+    input(f"{yellow}[? KOALAHOOK ?]{white} Press enter to select file.")
+    image_path = fd.askopenfilename(filetypes=[("Profile Pictures", "*.png;*.jpg;*.jpeg")])
+    if image_path is None or image_path == "":
+        clear()
+        image_path = input(f"{yellow}[? KOALAHOOK ?]{white} Path to the image file: ")
+    
     try:
         with open(image_path, "rb") as image_file:
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
