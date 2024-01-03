@@ -80,7 +80,7 @@ def intromenu():
 # Options start here
 
 # '''
-# # might make this idk or might remove it
+# might make this idk or might remove it
 # def sendembed(url):
 #     tit = input(f"{yellow}[? KOALAHOOK ?]{white}Title for the embed: ")
 #     des = input(f"{yellow}[? KOALAHOOK ?]{white}Description: ")
