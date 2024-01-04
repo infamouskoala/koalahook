@@ -108,7 +108,7 @@ def intromenu():
 # '''
 
 def changepfp(url):
-    input(f"{yellow}[? KOALAHOOK ?]{white} Press enter to select file.")
+    input(f"{yellow}[? KOALAHOOK ?]{white} Press enter to select file or skip this to input the path/url")
     image_path = fd.askopenfilename(filetypes=[("Profile Pictures", "*.png;*.jpg;*.jpeg")])
     if image_path is None or image_path == "":
         clear()
@@ -130,7 +130,7 @@ def changepfp(url):
         response.raise_for_status()
         print(f"{green}[+ KOALAHOOK +]{white} Profile picture changed successfully.")
     except FileNotFoundError:
-        print(f"{red}[! KOALAHOOK !] File not found. Please provide a valid file path or url.")
+        print(f"{red}[! KOALAHOOK !] File not found. Please provide a valid file path or image url.")
     except requests.exceptions.HTTPError as errh:
         print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
     except requests.exceptions.ConnectionError as errc:
