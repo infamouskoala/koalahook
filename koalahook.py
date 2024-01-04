@@ -5,6 +5,7 @@ import time
 import os
 import webbrowser
 import base64
+from tkinter import filedialog as fd
 
 # colors because I cannot remember to change it everytime
 
@@ -107,11 +108,20 @@ def intromenu():
 # '''
 
 def changepfp(url):
-    image_path = input(f"{yellow}[? KOALAHOOK ?]{white} Path to the image file: ")
-
+    input(f"{yellow}[? KOALAHOOK ?]{white} Press enter to select file or skip this to input the path/url")
+    image_path = fd.askopenfilename(filetypes=[("Profile Pictures", "*.png;*.jpg;*.jpeg")])
+    if image_path is None or image_path == "":
+        clear()
+        image_path = input(f"{yellow}[? KOALAHOOK ?]{white} Path/URL to image: ")
+    
     try:
-        with open(image_path, "rb") as image_file:
-            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+        if image_path.startswith(('http://', 'https://')):
+            response = requests.get(image_path)
+            response.raise_for_status()
+            encoded_image = base64.b64encode(response.content).decode('utf-8')
+        else:
+            with open(image_path, "rb") as image_file:
+                encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
 
         data = {
             "avatar": f"data:image/jpeg;base64,{encoded_image}"
@@ -120,7 +130,7 @@ def changepfp(url):
         response.raise_for_status()
         print(f"{green}[+ KOALAHOOK +]{white} Profile picture changed successfully.")
     except FileNotFoundError:
-        print(f"{red}[! KOALAHOOK !] File not found. Please provide a valid file path.")
+        print(f"{red}[! KOALAHOOK !] File not found. Please provide a valid file path or image url.")
     except requests.exceptions.HTTPError as errh:
         print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
     except requests.exceptions.ConnectionError as errc:
