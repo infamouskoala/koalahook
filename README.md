@@ -6,7 +6,7 @@
 # INSTALLATION
 - Download the project and extract
 - Download Python 3.11.x (or any other stable versions)
-- Download the required python modules either manually or by the given `requirments.txt` file.
+- Download the required python modules either manually or by the given `requirements.txt` file.
 ```txt
 pip install -r requirements.txt
 ```
