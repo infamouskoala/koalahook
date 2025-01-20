@@ -5,12 +5,16 @@ import time
 import os
 import webbrowser
 import base64
+import random
+import asyncio
 from tkinter import filedialog as fd
-
+from proxyScraper import scrapeaa
+from proxyChecker import checky
+#Proxies scraper credits to someone i dont remember :/
 # colors because I cannot remember to change it everytime
 
 black = "\033[1;30m"
-titletext = " [-- KOALAHOOK --] Made by github.com/infamouskoala"
+titletext = " [-- KOALAHOOK --] github.com/infamouskoala"
 red = "\033[1;31m"
 green = "\033[1;32m"
 yellow = "\033[1;33m"
@@ -19,8 +23,17 @@ purple = "\033[1;35m"
 cyan = "\033[1;36m"
 white = "\033[1;37m"
 invalidurl = f"{red}[! KOALAHOOK !]{white} Invalid url!"
-# test = "" test webhook, dont forget to remove :3
-
+# test = "" test webhook, dont forget to remove
+#Recommend http
+name='proxies.txt'
+z="y"
+if os.path.exists(name):
+    z=input(f"{cyan}[>]{white} Use last proxies(Y,N)? ")
+if z.lower()=="n":
+    proxiescount=asyncio.run(scrapeaa('http',name))
+    validproxies=checky(name,'http')
+with open(name,"r") as f:
+    validproxies=f.readlines()
 socials = {
     "github": {"link": "https://github.com/infamouskoala"},
     "youtube": {"link": "https://youtube.com/infamouskoala"},
@@ -33,7 +46,7 @@ logo = """
      ) /  \_(_)(_(_(/_(_(_) /   (__(_)(_) /(__
     (_/                  (_/                  
     >> [Webhook Multitool developed by @infamouskoala]
-"""
+"""#I not skidding yours :)
 
 for platform, info in socials.items():
     link = info["link"].replace("https://", "")
@@ -156,8 +169,11 @@ def deletehook(url):
 
 def sendmessage(url):
     msg = input(f"{yellow}[? KOALAHOOK ?]{white} Message: ")
+    proxies = {
+               "http": random.choice(validproxies),
+          }
     try:
-        response = requests.post(url, json={"content": msg})
+        response = requests.post(url, json={"content": msg},proxies=proxies)
         response.raise_for_status()
         print(f"{green}[+ KOALAHOOK +]{white} Message sent successfully.")
 
@@ -200,21 +216,26 @@ def spamhook(url):
     try:
         print(f"{red}[! KOALAHOOK !] Spam has started, Relaunch the tool to stop spam and use it again.")
         while True:
-            response = requests.post(url, json={"content": msg})
-            response.raise_for_status()
-            print(f"{green}[+ KOALAHOOK +]{white} Sent message")
+            proxies = {
+               "http": random.choice(validproxies),
+          }
+
+            response = requests.post(url, json={"content": msg},proxies=proxies)
+            # response.raise_for_status()
+            print(f"{green}[+ KOALAHOOK +]{white} Sent message-",response.status_code)
             time.sleep(timeout)
-    except requests.exceptions.HTTPError as errh:
-        print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
+    # except requests.exceptions.HTTPError as errh:
+    #     print(f"{red}[! KOALAHOOK !] HTTP Error: {errh}")
 
-    except requests.exceptions.ConnectionError as errc:
-        print(f"{red}[! KOALAHOOK !] Error Connecting: {errc}")
+    # except requests.exceptions.ConnectionError as errc:
+    #     print(f"{red}[! KOALAHOOK !] Error Connecting: {errc}")
 
-    except requests.exceptions.Timeout as errt:
-        print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
+    # except requests.exceptions.Timeout as errt:
+    #     print(f"{red}[! KOALAHOOK !] Timeout Error: {errt}")
 
-    except requests.exceptions.RequestException as err:
-        print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
+    except:
+        pass
+        # print(f"{red}[! KOALAHOOK !] Request Exception: {err}")
 
 # injecting antiskid into your pc, no skidding kid :)
 with open(f"{os.getcwd()}\\src\\skidded.txt", "w+") as file:
@@ -229,20 +250,30 @@ And if you're skidding it as we speak, please take some time to read the license
 
 Regards,
 Infamous Koala
-"""
+"""# fish :)
 
     file.write(content)
 
 webhook = {}
-os.system("title github.com/infamouskoala")
+os.system("title github.com/infamouskoala") # wowwww I'm execited :)
 while True:
     clear()
     printascii()
     while True:
+        url=""
         try:
-            url = input(f"{cyan}[>]{white} url: ")
+            input1="N"
+            if os.path.exists("lastwebhook.txt") and os.path.getsize("lastwebhook.txt") > 0:
+                input1=input(f"{cyan}[>]{white} Would you like to use last webhook(Y,N)? ")
+            if input1.lower()=="y":
+                with open("lastwebhook.txt", "a") as file:
+                    url=file.readlines()[0]
+            else:
+                url = input(f"{cyan}[>]{white} url: ")
             response = requests.get(url)
             if response.status_code == 200:
+                with open("lastwebhook.txt", "w") as file:
+                    file.write(url)
                 webhook = response.json()
                 break
             else:
@@ -250,6 +281,7 @@ while True:
         except Exception as e:
             if isinstance(e, KeyboardInterrupt):
                 raise SystemExit
+            print(url)
             print("Invalid Webhook")
     while True:
         intromenu()
@@ -277,8 +309,8 @@ while True:
                 print("Application ID: {}".format(webhook["application_id"]))
             print("Server Information\n    Guild ID: {}\n    Channel ID: {}".format(webhook["guild_id"], webhook["channel_id"]))
             print("Webhook Information\n    Webhook ID: {}\n    Name: {}\n    Type: {}\n    Token: {}".format(webhook["id"], webhook["name"], webhook["type"], webhook["token"]))
-            user = webhook["user"]
-            print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(user["username"] + "#" + user["discriminator"], user["id"]))
+            # user = webhook["user"]
+            # print("User Information (Creator)\n    Username: {}\n    User ID: {}".format(user["username"] + "#" + user["discriminator"], user["id"]))
             pause("\nPress any key to return to menu...")
         elif ch == 6:
             os.system("title Logging out...")

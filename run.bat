@@ -5,3 +5,4 @@ cls
 echo Running KoalaHook...
 timeout /t 2
 py koalahook.py
+pause
